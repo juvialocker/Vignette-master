@@ -1,0 +1,59 @@
+{
+  "name": "marketing-app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "amfe-flexible": "^2.2.1",
+    "axios": "^0.18.0",
+    "countup.js": "^2.0.4",
+    "echarts": "^4.2.1",
+    "iview": "^3.4.1",
+    "lodash": "^4.17.11",
+    "moment": "^2.29.1",
+    "pug": "^2.0.3",
+    "pug-plain-loader": "^1.0.0",
+    "reflect-metadata": "^0.1.13",
+    "smooth-scrollbar": "^8.4.0",
+    "vue": "^2.6.10",
+    "vue-baidu-map": "^0.21.20",
+    "vue-class-component": "^7.0.2",
+    "vue-property-decorator": "^8.1.0",
+    "vue-router": "^3.0.3",
+    "vue2-viewer": "^1.0.3",
+    "vuex": "^3.0.1",
+    "xlsx": "^0.15.1"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-typescript": "^3.7.0",
+    "@vue/cli-service": "^3.7.0",
+    "image-webpack-loader": "^8.1.0",
+    "less": "^3.10.3",
+    "less-loader": "^5.0.0",
+    "node-sass": "^4.14.1",
+    "postcss-pxtorem": "^5.1.1",
+    "rollup": "^1.12.4",
+    "rollup-plugin-node-resolve": "^5.0.0",
+    "rollup-plugin-uglify": "^6.0.2",
+    "sass-loader": "^7.1.0",
+    "typescript": "^3.4.3",
+    "vue-template-compiler": "^2.5.21"
+  },
+  "description": "```\r yarn install\r ```",
+  "main": "postcss.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/juvialocker/juvialoxer.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/juvialocker/juvialoxer/issues"
+  },
+  "homepage": "https://github.com/juvialocker/juvialoxer#readme"
+}

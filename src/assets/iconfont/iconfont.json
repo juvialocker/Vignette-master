@@ -1,0 +1,191 @@
+{
+  "id": "1381969",
+  "name": "yx",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "10664570",
+      "name": "批量导入",
+      "font_class": "import",
+      "unicode": "e62a",
+      "unicode_decimal": 58922
+    },
+    {
+      "icon_id": "10664571",
+      "name": "删除",
+      "font_class": "delete",
+      "unicode": "e62b",
+      "unicode_decimal": 58923
+    },
+    {
+      "icon_id": "10664572",
+      "name": "失败",
+      "font_class": "faile",
+      "unicode": "e62c",
+      "unicode_decimal": 58924
+    },
+    {
+      "icon_id": "10664573",
+      "name": "完成",
+      "font_class": "success",
+      "unicode": "e62d",
+      "unicode_decimal": 58925
+    },
+    {
+      "icon_id": "10664574",
+      "name": "查看",
+      "font_class": "check",
+      "unicode": "e62e",
+      "unicode_decimal": 58926
+    },
+    {
+      "icon_id": "10664575",
+      "name": "形状结合 (1)",
+      "font_class": "add",
+      "unicode": "e62f",
+      "unicode_decimal": 58927
+    },
+    {
+      "icon_id": "10664576",
+      "name": "Group 16",
+      "font_class": "warning",
+      "unicode": "e630",
+      "unicode_decimal": 58928
+    },
+    {
+      "icon_id": "10664577",
+      "name": "形状结合",
+      "font_class": "export",
+      "unicode": "e631",
+      "unicode_decimal": 58929
+    },
+    {
+      "icon_id": "10664578",
+      "name": "Combined Shape",
+      "font_class": "updatePassword",
+      "unicode": "e632",
+      "unicode_decimal": 58930
+    },
+    {
+      "icon_id": "10664699",
+      "name": "退出",
+      "font_class": "tuichu",
+      "unicode": "e638",
+      "unicode_decimal": 58936
+    },
+    {
+      "icon_id": "10676533",
+      "name": "1总销量",
+      "font_class": "orderNum",
+      "unicode": "e633",
+      "unicode_decimal": 58931
+    },
+    {
+      "icon_id": "10676633",
+      "name": "编组 2",
+      "font_class": "metter",
+      "unicode": "e636",
+      "unicode_decimal": 58934
+    },
+    {
+      "icon_id": "10676634",
+      "name": "1 (1)",
+      "font_class": "icon-test",
+      "unicode": "e637",
+      "unicode_decimal": 58935
+    },
+    {
+      "icon_id": "10676635",
+      "name": "4",
+      "font_class": "people",
+      "unicode": "e639",
+      "unicode_decimal": 58937
+    },
+    {
+      "icon_id": "10676637",
+      "name": "4 (1)",
+      "font_class": "record",
+      "unicode": "e63b",
+      "unicode_decimal": 58939
+    },
+    {
+      "icon_id": "10676638",
+      "name": "2",
+      "font_class": "dealer",
+      "unicode": "e63c",
+      "unicode_decimal": 58940
+    },
+    {
+      "icon_id": "10835562",
+      "name": "out",
+      "font_class": "out",
+      "unicode": "e63a",
+      "unicode_decimal": 58938
+    },
+    {
+      "icon_id": "10835563",
+      "name": "warning",
+      "font_class": "warning1",
+      "unicode": "e63d",
+      "unicode_decimal": 58941
+    },
+    {
+      "icon_id": "10835564",
+      "name": "stock",
+      "font_class": "stock",
+      "unicode": "e63e",
+      "unicode_decimal": 58942
+    },
+    {
+      "icon_id": "10835565",
+      "name": "manage",
+      "font_class": "manage",
+      "unicode": "e63f",
+      "unicode_decimal": 58943
+    },
+    {
+      "icon_id": "10835646",
+      "name": "agent",
+      "font_class": "agent",
+      "unicode": "e640",
+      "unicode_decimal": 58944
+    },
+    {
+      "icon_id": "10835647",
+      "name": "award",
+      "font_class": "award",
+      "unicode": "e641",
+      "unicode_decimal": 58945
+    },
+    {
+      "icon_id": "10977630",
+      "name": "金额",
+      "font_class": "money",
+      "unicode": "e642",
+      "unicode_decimal": 58946
+    },
+    {
+      "icon_id": "10977631",
+      "name": "实物",
+      "font_class": "shiwu",
+      "unicode": "e643",
+      "unicode_decimal": 58947
+    },
+    {
+      "icon_id": "10977915",
+      "name": "中奖概率",
+      "font_class": "gailv",
+      "unicode": "e644",
+      "unicode_decimal": 58948
+    },
+    {
+      "icon_id": "11661735",
+      "name": "形状",
+      "font_class": "checkPerson",
+      "unicode": "e645",
+      "unicode_decimal": 58949
+    }
+  ]
+}

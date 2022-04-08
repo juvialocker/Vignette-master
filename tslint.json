@@ -1,0 +1,26 @@
+{
+  "defaultSeverity": "off",
+  "extends": [
+    "tslint:recommended"
+  ],
+  "linterOptions": {
+    "exclude": [
+      "node_modules/**"
+    ]
+  },
+  "rules": {
+    "interface-name": [true, "never-prefix"],
+    "quotemark": [true, "single"],
+    "whitespace": true,
+    "no-any": true,
+    "indent": [true, "spaces", 2],
+    "ordered-imports": false,
+    "object-literal-sort-keys": false,
+    "no-consecutive-blank-lines": true,
+    "no-console": [false, "log", "error"],
+    "no-empty": true,
+    "no-shadowed-variable": true,
+    "vue/no-parsing-error": [2, { "x-invalid-end-tag": true }]
+  },
+  "noImplicitThis": false
+}
