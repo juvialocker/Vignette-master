@@ -1,15 +1,9 @@
-<!--
- * @Author: juvia
- * @Date: 2022-04-07 11:03:50
- * @LastEditors: juvia
- * @LastEditTime: 2022-04-08 17:35:41
- * @FilePath: \Vignette-master\src\views\Home\index.vue
- * @Description: 
- * 
- * Copyright (c) 2022 by juvia, All Rights Reserved. 
--->
 <template>
   <div class="index_container">
+    111
+    <div class="iframe">
+      <!-- <iframe src="http://word.kekenet.com/" width="300" height="300" frameborder="0" scrolling="auto"></iframe> -->
+    </div>
   </div>
 </template>
 <script lang="ts">

@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { API_URL, TOKEN_KEY } from '../config';
 import { isTokenExpired } from '../helpers/utils';
-import iView, { Modal } from 'iview';
-import 'iview/dist/styles/iview.css';
+import iView, { Modal } from 'view-design';
+import 'view-design/dist/styles/iview.css';
 import { Vue } from 'vue-property-decorator';
 import router from 'vue-router';
 

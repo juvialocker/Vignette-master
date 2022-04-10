@@ -4,8 +4,8 @@ import router from './router';
 import store from './store/store';
 
 import 'reflect-metadata';
-import iView from 'iview';
-import 'iview/dist/styles/iview.css';
+import iView from 'view-design';
+import 'view-design/dist/styles/iview.css';
 import '@/assets/iconfont/iconfont.css';
 import '@/theme/index.less';
 import '@/assets/main.scss';

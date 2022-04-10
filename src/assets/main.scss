@@ -330,5 +330,16 @@ th .ivu-table-cell {
   }
 }
 
+.about {
+  .ivu-input-suffix {
+    right: 14px;
+  }
+  .ivu-input-prefix i,
+  .ivu-input-suffix i {
+    font-size: 16px;
+    line-height: 50px;
+    color: #fff;
+  }
+}
 @media screen and (min-width: 1366px) {
 }

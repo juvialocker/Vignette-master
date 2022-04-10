@@ -1,10 +1,14 @@
 <template>
   <div class="about">
-    <div class="left" ref="background">
-    </div>
+    <div class="left" ref="background"></div>
     <div class="login">
       <div class="item">
-        <Form class="form" ref="formInline" :model="formInline" :rules="ruleInline">
+        <Form
+          class="form"
+          ref="formInline"
+          :model="formInline"
+          :rules="ruleInline"
+        >
           <FormItem prop="user" class="loginUser">
             <img src="@/assets/phone.png" width="100%" alt />
             <Input
@@ -12,51 +16,74 @@
               type="text"
               v-model="formInline.user"
               autocomplete="new-password"
-              placeholder="请输入手机号"
+              placeholder="请输入帐号"
             />
           </FormItem>
-          <FormItem prop="password" class="loginPwd">
+          <FormItem prop="password" class="loginUser">
             <img src="@/assets/password.png" width="100%" alt />
             <Input
+              type="password"
+              password
               autocomplete="new-password"
               class="password"
               v-model="formInline.password"
-              placeholder="请输入验证码"
-            >
-              <span slot="append" class="get" v-if="getCode" @click="getLoginCode">{{getCodeText}}</span>
-              <span slot="append" class="newGet" v-else>重新获取（{{time}}s）</span>
-            </Input>
+              placeholder="请输入密码"
+            />
+            <!-- <span slot="append" class="get" v-if="getCode" @click="getLoginCode">{{getCodeText}}</span>
+              <span slot="append" class="newGet" v-else>重新获取（{{time}}s）</span> -->
+            <!-- </Input> -->
+          </FormItem>
+          <FormItem class="xieyi">
+            <Checkbox v-model="single">网站使用协议</Checkbox>
           </FormItem>
           <FormItem>
-            <Button type="primary" class="submit" @click="handleSubmit()">登录</Button>
+            <div class="btns">
+              <Button type="success" class="submit" @click="handleSubmit()"
+                >登录</Button
+              >
+              <Button type="info" class="submit" @click="register()"
+                >注册</Button
+              >
+            </div>
           </FormItem>
         </Form>
       </div>
     </div>
+    <Modal title="提示" v-model="modal8" :mask-closable="false">
+      <p>账号尚未使用，是否注册</p>
+      <div slot="footer">
+        <Button class="cancel" type="text" size="large" @click="cancel"
+          >取消</Button
+        >
+        <Button class="ok" type="info" size="large" @click="ok">确定</Button>
+      </div>
+    </Modal>
   </div>
 </template>
 
 <script>
-import { Vue, Watch, Prop, Component } from "vue-property-decorator";
-import store from "@/store/store";
-import { TOKEN_KEY } from "../config";
-import * as service from "@/service";
+// import { Vue, Watch, Prop, Component } from "vue-property-decorator";
+// import store from "@/store/store";
+// import { TOKEN_KEY } from "../config";
+// import * as service from "@/service";
 
 export default {
   data() {
     return {
       formInline: {
-        user: "",
-        password: ""
+        user: "1",
+        password: "1",
       },
       ruleInline: {
-        user: [{ required: true, message: "请输入手机号", trigger: "blur" }],
-        password: [{ required: true, message: "请输入验证码", trigger: "blur" }]
+        user: [{ required: true, message: "请输入帐号", trigger: "blur" }],
+        password: [{ required: true, message: "请输入密码", trigger: "blur" }],
       },
       winH: "",
       time: 60,
       getCode: true,
-      getCodeText: "获取验证码"
+      getCodeText: "获取验证码",
+      modal8: false,
+      single: true,
     };
   },
   // beforeRouteLeave(to, from, next) {
@@ -69,38 +96,38 @@ export default {
   created() {
     this.winH = window.innerHeight + "px";
     window.sessionStorage.clear();
-    // this.detectBrowser();
+
   },
   mounted() {
     this.$refs["background"].style.height = this.winH;
   },
   methods: {
-    getLoginCode() {
-      console.log("验证码");
-      let params = {};
-      params.phone = this.formInline.user;
-      if (/^1[3456789]\d{9}$/.test(this.formInline.user)) {
-        service.sendMessage(params).then(({ data }) => {
-          if (data.status == 200) {
-            console.log(data);
-          } else {
-            this.$Message.warning(data.error);
-          }
-        });
-        this.getCode = false;
-        let timer = setInterval(() => {
-          this.time--;
-          if (this.time == 0) {
-            this.time = 60;
-            this.getCode = true;
-            this.getCodeText = "重新获取验证码";
-            window.clearInterval(timer);
-          }
-        }, 1000);
-      } else {
-        this.$Message.error("手机号错误");
-      }
-    },
+    // getLoginCode() {
+    //   let params = {};
+    //   params.phone = this.formInline.user;
+    //   if (/^1[3456789]\d{9}$/.test(this.formInline.user)) {
+    //     service.sendMessage(params).then(({ data }) => {
+    //       if (data.status == 200) {
+    //         console.log(data);
+    //       } else {
+    //         this.$Message.warning(data.error);
+    //       }
+    //     });
+    //     this.getCode = false;
+    //     let timer = setInterval(() => {
+    //       this.time--;
+    //       if (this.time == 0) {
+    //         this.time = 60;
+    //         this.getCode = true;
+    //         this.getCodeText = "重新获取验证码";
+    //         window.clearInterval(timer);
+    //       }
+    //     }, 1000);
+    //   } else {
+    //     this.$Message.error("手机号错误");
+    //   }
+    // },
+
     // 判断浏览器种类
     detectBrowser() {
       // var Sys = {};
@@ -123,45 +150,104 @@ export default {
       //   this.$Message.error("该网站在谷歌浏览器上体验效果最佳");
       // }
     },
-    handleSubmit() {
-      // this.$Message.error("你还没有创建新的页面哟!")
-      this.$router.push({
-        name: "home"
+    // 注册
+    register() {
+      console.log(this.single);
+      this.$refs.formInline.validate((valid) => {
+        if (valid) {
+          let params = {};
+          params.user = this.formInline.user;
+          params.password = this.formInline.password;
+          if (this.single) {
+            this.$Message.success("注册成功，将在5秒后跳转至网站背单词页面");
+            setTimeout(() => {
+              this.$router.push({
+                name: "home",
+              });
+            }, 5000);
+            window.sessionStorage.setItem("username", this.formInline.user);
+          } else {
+            this.$Message.warning("请勾选网站使用协议");
+          }
+          // service
+          //   .login(params)
+          //   .then(res => {
+          //     let status = res.status;
+          //     let type = res.message.Jurisdiction.type;
+          //     if (status == 200 && type === "admin") {
+          //       // this.$Message.success("登录成功");
+          //       window.sessionStorage.setItem("username", res.message.userName);
+          //       setTimeout(() => {
+          //         this.$Message.warning("还没有页面可以调整哟");
+          //         // this.$router.push({
+          //         //   name: "home"
+          //         // }),
+          //       }, 2000);
+          //     } else if (status == 200 && type !== "admin") {
+          //       this.$Message.error("您非当前系统管理员，请重新登录");
+          //     } else {
+          //       this.$Message.error("用户名或验证码错误");
+          //     }
+          //   })
+          //   .catch(error => {
+          //     this.$Message.error("用户名或验证码错误");
+          //   });
+        } else {
+          return false;
+        }
       });
-      // this.$refs.formInline.validate(valid => {
-      //   if (valid) {
-      //     let params = {};
-      //     params.phone = this.formInline.user;
-      //     params.code = this.formInline.password;
-      //     service
-      //       .login(params)
-      //       .then(res => {
-      //         let status = res.status;
-      //         let type = res.message.Jurisdiction.type;
-      //         if (status == 200 && type === "admin") {
-      //           // this.$Message.success("登录成功");
-      //           window.sessionStorage.setItem("username", res.message.userName);
-      //           setTimeout(() => {
-      //             this.$Message.warning("还没有页面可以调整哟");
-      //             // this.$router.push({
-      //             //   name: "home"
-      //             // }),
-      //           }, 2000);
-      //         } else if (status == 200 && type !== "admin") {
-      //           this.$Message.error("您非当前系统管理员，请重新登录");
-      //         } else {
-      //           this.$Message.error("用户名或验证码错误");
-      //         }
-      //       })
-      //       .catch(error => {
-      //         this.$Message.error("用户名或验证码错误");
-      //       });
-      //   } else {
-      //     return false;
-      //   }
-      // });
-    }
-  }
+    },
+    handleSubmit() {
+      console.log(this.single);
+      // this.$Message.error("你还没有创建新的页面哟!")
+      this.$refs.formInline.validate((valid) => {
+        if (valid) {
+          // let params = {};
+          // params.user = this.formInline.user;
+          // params.password = this.formInline.password;
+          // params.single = this.formInline.single;
+          if (this.single) {
+            this.$router.push({
+              name: "home",
+            });
+            window.sessionStorage.setItem("username", this.formInline.user);
+            
+          } else {
+            this.$Message.warning("请勾选网站使用协议");
+          }
+          // service
+          //   .login(params)
+          //   .then(res => {
+          //     let status = res.status;
+          //     let type = res.message.Jurisdiction.type;
+          //     if (status == 200 && type === "admin") {
+          //       // this.$Message.success("登录成功");
+          //       window.sessionStorage.setItem("username", res.message.userName);
+          //       setTimeout(() => {
+          //         this.$Message.warning("还没有页面可以调整哟");
+          //         // this.$router.push({
+          //         //   name: "home"
+          //         // }),
+          //       }, 2000);
+          //     } else if (status == 200 && type !== "admin") {
+          //       this.$Message.error("您非当前系统管理员，请重新登录");
+          //     } else {
+          //       this.$Message.error("用户名或验证码错误");
+          //     }
+          //   })
+          //   .catch(error => {
+          //     this.$Message.error("用户名或验证码错误");
+          //   });
+        } else {
+          return false;
+        }
+      });
+    },
+    cancel() {
+      this.modal8 = false;
+    },
+    ok() {},
+  },
 };
 </script>
 
@@ -176,12 +262,13 @@ export default {
   height: 100%;
   font-size: 12px;
   position: relative;
-  background: url("../assets/login.png") no-repeat 100% 100%;
+  // background: url("../assets/login.png") no-repeat 100% 100%;
+  background-color: #014e82;
   background-size: cover;
   .login {
     position: absolute;
-    right: 40%;
-    top: 53%;
+    right: 30%;
+    top: 30%;
   }
   #logo {
     width: 189px;
@@ -259,7 +346,7 @@ export default {
         background-repeat: no-repeat;
         background-position: 20px 15px;
         font-size: 14px;
-        width: 328px;
+        // width: 328px;
         color: #fff;
       }
       .get {
@@ -301,17 +388,29 @@ export default {
   .form {
     margin-top: 6%;
   }
-  .submit {
+  .xieyi {
+    color: #fff;
+    font-size: 14px;
+    text-align: left;
+    // padding-left: 20px;
+  }
+  .btns {
     width: 100%;
-    height: 60px;
-    border-radius: 50px;
-    font-size: 20px;
-    font-family: PingFangSC-Medium;
-    font-weight: 500;
-    color: rgba(255, 255, 255, 1);
-    line-height: 20px;
-    letter-spacing: 2px;
-    background: transparent;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .submit {
+      width: 45%;
+      height: 60px;
+      border-radius: 50px;
+      font-size: 20px;
+      font-family: PingFangSC-Medium;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 1);
+      line-height: 20px;
+      letter-spacing: 2px;
+      // background: transparent;
+    }
   }
   input:-webkit-autofill,
   input:-webkit-autofill:hover,

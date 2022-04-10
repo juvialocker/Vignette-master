@@ -64,7 +64,7 @@
 <script lang="ts">
 import { Vue, Component, Watch, Emit, Prop } from "vue-property-decorator";
 import { TOKEN_KEY, API_URL,API_URL_IMG,UPLOAD_URL_IMG } from "@/config";
-import { Form } from "iview";
+import { Form } from "view-design";
 import * as service from "@/service";
 @Component
 export default class newMetterModal extends Vue {
