@@ -9,7 +9,7 @@
           <MenuItem name="home" to="/home">
               | 背单词
           </MenuItem>
-          <MenuItem name="market" to="/market">
+          <MenuItem name="conversation" to="/conversation">
               | 情景会话
           </MenuItem>
           <MenuItem name="channel" to="/channel">
