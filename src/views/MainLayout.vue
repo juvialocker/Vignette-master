@@ -15,7 +15,7 @@
           <MenuItem name="channel" to="/channel">
               | 论坛
           </MenuItem>
-          <MenuItem name="transport" to="/transport">
+          <MenuItem name="video" to="/video">
               | 视频鉴赏
           </MenuItem>
         </div>

@@ -33,8 +33,12 @@
       <div class="conversation_content">
         <div class="btns">
           <div class="btn">
-            <Button type="success" @click="btn_word('next')">隐藏中文</Button>
-            <Button type="success" @click="btn_word('prev')">隐藏英文</Button>
+            <Button type="success" @click="btn_word('cn')">{{
+              content_cn
+            }}</Button>
+            <Button type="success" @click="btn_word('en')">{{
+              content_en
+            }}</Button>
           </div>
         </div>
         <div class="content_box">
@@ -58,8 +62,8 @@
                   srcset=""
                 />
                 <div>
-                  <div>{{ item.en }}</div>
-                  <div>{{ item.cn }}</div>
+                  <div v-if="disblock_en">{{ item.en }}</div>
+                  <div v-if="disblock_cn">{{ item.cn }}</div>
                 </div>
               </div>
             </div>
@@ -204,6 +208,30 @@ export default class module extends Vue {
   }
   public mounted() {
     this.get_conversation("1-1");
+  }
+  public disblock_en: boolean = true;
+  public disblock_cn: boolean = true;
+  public content_en: string = "隐藏英文";
+  public content_cn: string = "隐藏英文";
+  public btn_word(v: string) {
+    if (v == "cn") {
+      this.disblock_cn = !this.disblock_cn;
+      if (this.content_cn == "显示中文") {
+        this.content_cn = "隐藏中文";
+      } else {
+        this.content_cn = "显示中文";
+      }
+      return;
+    }
+    if (v == "en") {
+      this.disblock_en = !this.disblock_en;
+      if (this.content_en == "显示英文") {
+        this.content_en = "隐藏英文";
+      } else {
+        this.content_en = "显示英文";
+      }
+      return;
+    }
   }
 }
 </script>
