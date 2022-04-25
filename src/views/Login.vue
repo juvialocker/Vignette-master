@@ -407,7 +407,7 @@ export default {
       font-family: PingFangSC-Medium;
       font-weight: 500;
       color: rgba(255, 255, 255, 1);
-      line-height: 20px;
+      line-height: 30px;
       letter-spacing: 2px;
       // background: transparent;
     }

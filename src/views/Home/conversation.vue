@@ -212,7 +212,7 @@ export default class module extends Vue {
   public disblock_en: boolean = true;
   public disblock_cn: boolean = true;
   public content_en: string = "隐藏英文";
-  public content_cn: string = "隐藏英文";
+  public content_cn: string = "隐藏中文";
   public btn_word(v: string) {
     if (v == "cn") {
       this.disblock_cn = !this.disblock_cn;

@@ -44,6 +44,14 @@ const rs = {
       icon: "iconmanage",
       component: () => import(/* webpackChunkName: "Home" */ "./post.vue"),
     },
+    {
+      path: "/post_detail",
+      name: "post_detail",
+      // 不需要首页可注释掉meta
+      meta: { txt: "首页", keepAlive: true, isBack: true },
+      icon: "iconmanage",
+      component: () => import(/* webpackChunkName: "Home" */ "./post_detail.vue"),
+    },
   ],
 };
 

@@ -3,7 +3,7 @@
     <Header>
       <Menu mode="horizontal" :active-name="activeName">
         <div class="layout-logo">
-          img.logo(src="@/assets/index_logo.png")
+          img.logo(src="@/assets/image/logo1.png")
         </div>
         <div class="layout-nav">
           <MenuItem name="home" to="/home">
@@ -12,7 +12,7 @@
           <MenuItem name="conversation" to="/conversation">
               | 情景会话
           </MenuItem>
-          <MenuItem name="channel" to="/channel">
+          <MenuItem name="post" to="/post">
               | 论坛
           </MenuItem>
           <MenuItem name="video" to="/video">
