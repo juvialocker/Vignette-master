@@ -1,8 +1,20 @@
+/*
+ * @Author: juvia
+ * @Date: 2022-04-07 10:47:04
+ * @LastEditors: juvia
+ * @LastEditTime: 2022-04-26 15:38:27
+ * @FilePath: \Vignette-master\src\main.ts
+ * @Description: 
+ * 
+ * Copyright (c) 2022 by juvia, All Rights Reserved. 
+ */
 import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store/store";
 import axios from "axios";
+import VueAxios from 'vue-axios'
+Vue.use(VueAxios, axios);
 
 import "reflect-metadata";
 import iView from "view-design";

@@ -2,7 +2,7 @@
  * @Author: juvia
  * @Date: 2022-04-07 10:47:04
  * @LastEditors: juvia
- * @LastEditTime: 2022-04-08 17:26:54
+ * @LastEditTime: 2022-04-26 14:49:17
  * @FilePath: \Vignette-master\src\router.ts
  * @Description: 
  * 
@@ -16,10 +16,10 @@ Vue.use(Router);
 
 export default new Router({
   routes: [
-    {
-      path: '/',
-      redirect: { name: 'login' },
-    },
+    // {
+    //   path: '/',
+    //   redirect: { name: 'login' },
+    // },
     {
       path: '/',
       component: MainLayout,
@@ -32,6 +32,14 @@ export default new Router({
         // require('./views/Customer/router').default,
         // require('./views/Management/router').default,
       ],
+    },
+    {
+      path: '/index',
+      name: 'index',
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import(/* webpackChunkName: "about" */ './views/Home/index.vue'),
     },
     {
       path: '/login',

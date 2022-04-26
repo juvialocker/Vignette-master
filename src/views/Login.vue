@@ -1,6 +1,6 @@
 <template>
   <div class="about">
-    <div class="left" ref="background"></div>
+    <!-- <div class="left" ref="background"></div> -->
     <div class="login">
       <div class="item">
         <Form
@@ -64,7 +64,7 @@
 <script>
 // import { Vue, Watch, Prop, Component } from "vue-property-decorator";
 // import store from "@/store/store";
-// import { TOKEN_KEY } from "../config";
+import { API_URL } from "../config";
 // import * as service from "@/service";
 
 export default {
@@ -96,37 +96,37 @@ export default {
   created() {
     this.winH = window.innerHeight + "px";
     window.sessionStorage.clear();
-
+    
   },
   mounted() {
-    this.$refs["background"].style.height = this.winH;
+    // this.$refs["background"].style.height = this.winH;
   },
   methods: {
-    // getLoginCode() {
-    //   let params = {};
-    //   params.phone = this.formInline.user;
-    //   if (/^1[3456789]\d{9}$/.test(this.formInline.user)) {
-    //     service.sendMessage(params).then(({ data }) => {
-    //       if (data.status == 200) {
-    //         console.log(data);
-    //       } else {
-    //         this.$Message.warning(data.error);
-    //       }
-    //     });
-    //     this.getCode = false;
-    //     let timer = setInterval(() => {
-    //       this.time--;
-    //       if (this.time == 0) {
-    //         this.time = 60;
-    //         this.getCode = true;
-    //         this.getCodeText = "重新获取验证码";
-    //         window.clearInterval(timer);
-    //       }
-    //     }, 1000);
-    //   } else {
-    //     this.$Message.error("手机号错误");
-    //   }
-    // },
+    getLoginCode() {
+      //   let params = {};
+      //   params.phone = this.formInline.user;
+      //   if (/^1[3456789]\d{9}$/.test(this.formInline.user)) {
+      //     service.sendMessage(params).then(({ data }) => {
+      //       if (data.status == 200) {
+      //         console.log(data);
+      //       } else {
+      //         this.$Message.warning(data.error);
+      //       }
+      //     });
+      //     this.getCode = false;
+      //     let timer = setInterval(() => {
+      //       this.time--;
+      //       if (this.time == 0) {
+      //         this.time = 60;
+      //         this.getCode = true;
+      //         this.getCodeText = "重新获取验证码";
+      //         window.clearInterval(timer);
+      //       }
+      //     }, 1000);
+      //   } else {
+      //     this.$Message.error("手机号错误");
+      //   }
+    },
 
     // 判断浏览器种类
     detectBrowser() {
@@ -197,47 +197,45 @@ export default {
         }
       });
     },
+    // 登录
     handleSubmit() {
-      console.log(this.single);
       // this.$Message.error("你还没有创建新的页面哟!")
       this.$refs.formInline.validate((valid) => {
         if (valid) {
-          // let params = {};
-          // params.user = this.formInline.user;
-          // params.password = this.formInline.password;
-          // params.single = this.formInline.single;
           if (this.single) {
-            this.$router.push({
-              name: "home",
-            });
+            console.log("发送请求",`${API_URL}/api/login`);
+            this.axios({
+              method: "get",
+              url: `${API_URL}/api/login`,
+              data: {
+                name: this.formItem.name,
+              },
+            })
+              .then((response) => {
+                if (response.status == 200 && response.data != "失败") {
+                  this.$router.push({
+                    name: "success",
+                    params: response.data,
+                  });
+                } else {
+                  this.$Message.warning({
+                    content: "提交失败,请刷新页面并重新提交",
+                    duration: 10,
+                    closable: true,
+                  });
+                }
+              })
+              .catch((error) => {
+                this.$Message.warning({
+                  content: "提交失败,请刷新页面并重新提交",
+                  duration: 10,
+                  closable: true,
+                });
+              });
             window.sessionStorage.setItem("username", this.formInline.user);
-            
           } else {
             this.$Message.warning("请勾选网站使用协议");
           }
-          // service
-          //   .login(params)
-          //   .then(res => {
-          //     let status = res.status;
-          //     let type = res.message.Jurisdiction.type;
-          //     if (status == 200 && type === "admin") {
-          //       // this.$Message.success("登录成功");
-          //       window.sessionStorage.setItem("username", res.message.userName);
-          //       setTimeout(() => {
-          //         this.$Message.warning("还没有页面可以调整哟");
-          //         // this.$router.push({
-          //         //   name: "home"
-          //         // }),
-          //       }, 2000);
-          //     } else if (status == 200 && type !== "admin") {
-          //       this.$Message.error("您非当前系统管理员，请重新登录");
-          //     } else {
-          //       this.$Message.error("用户名或验证码错误");
-          //     }
-          //   })
-          //   .catch(error => {
-          //     this.$Message.error("用户名或验证码错误");
-          //   });
         } else {
           return false;
         }
@@ -259,16 +257,18 @@ export default {
 }
 .about {
   width: 100%;
-  height: 100%;
+  height: 100vh;
   font-size: 12px;
   position: relative;
   // background: url("../assets/login.png") no-repeat 100% 100%;
   background-color: #014e82;
   background-size: cover;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
   .login {
-    position: absolute;
-    right: 30%;
-    top: 30%;
+    margin: auto 0;
+    height: 314px !important;
   }
   #logo {
     width: 189px;

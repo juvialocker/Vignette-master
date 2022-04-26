@@ -1,3 +1,13 @@
+<!--
+ * @Author: juvia
+ * @Date: 2022-04-07 11:03:50
+ * @LastEditors: juvia
+ * @LastEditTime: 2022-04-26 15:27:16
+ * @FilePath: \Vignette-master\src\views\Home\index.vue
+ * @Description: 
+ * 
+ * Copyright (c) 2022 by juvia, All Rights Reserved. 
+-->
 <template>
   <div class="index_container">
     <div class="title">{{ content }}</div>
@@ -41,7 +51,7 @@ export default class module extends Vue {
     });
   }
   public content: string =
-    "如果您未注册，请花一分钟时间免费注册可可英语用户。如感觉好可推荐给身边的朋友。";
+    "如果您未注册，请花一分钟时间免费注册本网站用户。如感觉好可推荐给身边的朋友。";
   public btn() {
     this.$router.push({
       path: "/word",

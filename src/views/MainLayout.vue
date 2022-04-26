@@ -20,6 +20,7 @@
           </MenuItem>
         </div>
         <div class="avatar">
+        <div v-if="username!==''">
           <Dropdown placement="bottom-end">
             <Avatar icon="ios-person" size="small" /> &nbsp;&nbsp;{{username}}
             <Icon type="ios-arrow-down"></Icon>
@@ -32,6 +33,10 @@
               </DropdownItem>
             </DropdownMenu>
           </Dropdown>
+        </div>
+        <div v-else class="login">
+          <Button class="ok" type="info" size="large" @click="login">登录</Button>
+        </div>
         </div>
       </Menu>
     </Header>
@@ -48,7 +53,7 @@
         </p>
         <div class="wrap">
           <img class="warn" src="@/assets/warning.png" alt>
-          <p class="content">退出后将无法查看管理数据，确认退出当前账户吗？</p>
+          <p class="content">确认退出当前账户吗？</p>
         </div>
         <div slot="footer">
           <Button class="cancel" type="text" size="large" @click="cancel">取消</Button>
@@ -58,43 +63,42 @@
   </Layout> 
 </template>
 <script lang="ts">
-import { TOKEN_KEY } from '../config';
-import { Vue, Component, Watch } from 'vue-property-decorator';
-import screenCheck from '@/components/screenCheck.vue';
-import smoothScroll from 'smooth-scrollbar';
+import { TOKEN_KEY } from "../config";
+import { Vue, Component, Watch } from "vue-property-decorator";
+import screenCheck from "@/components/screenCheck.vue";
+import smoothScroll from "smooth-scrollbar";
 import * as service from "@/service";
 
 @Component({
   components: {
-    screenCheck, 
+    screenCheck,
   },
 })
 export default class MainLayout extends Vue {
-  public username = window.sessionStorage.getItem('username');
+  public username = window.sessionStorage.getItem("username");
   public winIsShow = false;
   public screenWidth = window.screen.width;
   public screenHight = window.screen.height;
-  public visible:boolean=false;
-  public logOut(){
-    this.visible=true;
+  public visible: boolean = false;
+  public logOut() {
+    this.visible = true;
   }
   public cancel() {
-    this.visible=false;
+    this.visible = false;
   }
   public ok() {
-    this.visible=false;
+    this.visible = false;
     this.$router.push({
-      name: 'login',
+      name: "login",
     });
     window.sessionStorage.removeItem(TOKEN_KEY);
-    window.sessionStorage.removeItem('username');
-    
+    window.sessionStorage.removeItem("username");
   }
-  public change(v:boolean) {
-    this.visible=v;
+  public change(v: boolean) {
+    this.visible = v;
   }
   get activeName() {
-    return (this.$route.name || '').split('-').shift();
+    return (this.$route.name || "").split("-").shift();
   }
 
   public mounted() {
@@ -106,7 +110,11 @@ export default class MainLayout extends Vue {
         this.winIsShow = true;
       }
     };
-    
+  }
+  public login(){
+    this.$router.push({
+      path:"login"
+    })
   }
 }
 </script>
@@ -143,18 +151,18 @@ img.logo {
   cursor: pointer;
 }
 .wrap {
-    display: flex;
-    align-items: center;
-    .content {
-      height: 30px;
-      margin-left: 10px;
-      font-family: PingFangSC-Regular;
-      font-weight: 400;
-      color: rgba(51, 51, 51, 1);
-      line-height: 30px;
-    }
+  display: flex;
+  align-items: center;
+  .content {
+    height: 30px;
+    margin-left: 10px;
+    font-family: PingFangSC-Regular;
+    font-weight: 400;
+    color: rgba(51, 51, 51, 1);
+    line-height: 30px;
   }
-.iconfont{
+}
+.iconfont {
   vertical-align: middle;
   padding-right: 5px;
 }
