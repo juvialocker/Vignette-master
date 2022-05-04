@@ -1,23 +1,12 @@
-/*
- * @Author: juvia
- * @Date: 2022-04-25 15:20:19
- * @LastEditors: juvia
- * @LastEditTime: 2022-04-26 15:42:23
- * @FilePath: \Vignette-master\service\mysql.js
- * @Description: 
- * 
- * Copyright (c) 2022 by juvia, All Rights Reserved. 
- */
 var logger=require('./log.js'); //引入日志文件模块
 var mysql = require('mysql');
 var connection = {
   host: "127.0.0.1",
   user: "root",
   password: '641023',
-  port: "3306",
+  port: "3307",
   database: "juvia",
 }
-
 // 用于保存数据连接实例
 var db = null;
 var pingInterval;
@@ -53,5 +42,5 @@ function connect() {
     });
   }, 1800000);
 }
-
+connect();
 module.exports = db;

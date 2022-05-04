@@ -6,7 +6,7 @@
           img.logo(src="@/assets/image/logo1.png")
         </div>
         <div class="layout-nav">
-          <MenuItem name="home" to="/home">
+          <MenuItem name="index" to="/index">
               | 背单词
           </MenuItem>
           <MenuItem name="conversation" to="/conversation">
@@ -98,7 +98,7 @@ export default class MainLayout extends Vue {
     this.visible = v;
   }
   get activeName() {
-    return (this.$route.name || "").split("-").shift();
+    return (this.$route.name || "").split("/").pop();
   }
 
   public mounted() {

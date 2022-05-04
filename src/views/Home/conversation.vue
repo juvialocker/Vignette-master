@@ -62,8 +62,8 @@
                   srcset=""
                 />
                 <div>
-                  <div v-if="disblock_en">{{ item.en }}</div>
-                  <div v-if="disblock_cn">{{ item.cn }}</div>
+                  <div v-if="disblock_en">{{ item.conversation_content_en }}</div>
+                  <div v-if="disblock_cn">{{ item.conversation_content_cn }}</div>
                 </div>
               </div>
             </div>
@@ -77,6 +77,7 @@
 import { Vue, Component, Watch, Prop, Emit } from "vue-property-decorator";
 // import modal from "@/components/modal.vue"
 import * as service from "@/service";
+import { API_URL } from "../../config";
 @Component({
   components: {
     // modal
@@ -105,22 +106,6 @@ export default class module extends Vue {
         {
           menuItem: "1-4",
           menuItem_name: "购房英语",
-        },
-        {
-          menuItem: "1-5",
-          menuItem_name: "健康话题",
-        },
-        {
-          menuItem: "1-5",
-          menuItem_name: "家庭话题",
-        },
-        {
-          menuItem: "1-5",
-          menuItem_name: "接打电话",
-        },
-        {
-          menuItem: "1-5",
-          menuItem_name: "健康话题",
         },
       ],
     },
@@ -201,10 +186,24 @@ export default class module extends Vue {
   }
   public conversation_content: Array<any> = [];
   public get_conversation(v) {
-    let url = `https://mock.mengxuegu.com/mock/6170092a4351af34a2ddf6a1/conversation_content${v}`;
-    (this as any).$axios.post(url).then((res: any) => {
-      this.conversation_content = res.data.data;
-    });
+    let url = `${API_URL}/api/conversation_content`;
+    this.axios({
+      method: "post",
+      url: url,
+      data: {
+        conversation_type_id: v,
+      },
+    })
+      .then((res) => {
+        if (res.data.code == 200) {
+          this.conversation_content = res.data.data;
+        } else if (res.data.code == 500) {
+          this.$Message.warning("网络错误");
+        }
+      })
+      .catch((error) => {
+        this.$Message.warning("网络错误");
+      });
   }
   public mounted() {
     this.get_conversation("1-1");

@@ -4,15 +4,15 @@
  * @LastEditors: juvia
  * @LastEditTime: 2022-04-08 17:18:10
  * @FilePath: \Vignette-master\vue.config.js
- * @Description: 
- * 
- * Copyright (c) 2022 by juvia, All Rights Reserved. 
+ * @Description:
+ *
+ * Copyright (c) 2022 by juvia, All Rights Reserved.
  */
 module.exports = {
   devServer: {
     disableHostCheck: false,
   },
-  assetsDir: 'static/',
+  assetsDir: "static/",
   css: {
     loaderOptions: {
       less: {
@@ -30,6 +30,19 @@ module.exports = {
       // },
     },
   },
+  //在项目根目录下的vue.config.js文件下
+  // devServer: {
+  //   hot: true,
+  //   clientLogLevel: "warning",
+  //   port: 8080,
+  //   proxy: {
+  //     "": {
+  //       target: "http://localhost:3000/",
+  //       ws: false,
+  //       changeOrigin: true,
+  //     },
+  //   },
+  // },
   configureWebpack: (config) => {
     if (process.env.NODE_ENV === "production") {
       // 为生产环境修改配置...

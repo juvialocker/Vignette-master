@@ -1,13 +1,3 @@
-/*
- * @Author: juvia
- * @Date: 2022-04-25 15:20:03
- * @LastEditors: juvia
- * @LastEditTime: 2022-04-25 15:26:13
- * @FilePath: \Vignette-master\service\index.js
- * @Description: 
- * 
- * Copyright (c) 2022 by juvia, All Rights Reserved. 
- */
 const userApi = require('./api/userApi');
 const fs = require('fs');
 const path = require('path');
@@ -22,8 +12,9 @@ app.all('*', function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
   // 允许的header类型
   res.header('Access-Control-Allow-Headers', 'content-type');
+  res.setHeader('Content-Type', 'text/html; charset=utf-8')
   // 跨域允许的请求方式
-  res.header('Access-Control-Allow-Methods', 'DELETE,PUT,POST,GET,OPTIONS');
+  res.header('Access-Control-Allow-Methods', 'DELETE,PUT,POST,GET,OPTIONS,');
   if (req.method.toLowerCase() === 'options') {
       res.sendStatus(200);
   } else {
@@ -31,7 +22,7 @@ app.all('*', function (req, res, next) {
   }
 });
 app.use(bodyParser.json()); // 以json格式返回出去
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // 后端api路由
 app.use('/api', userApi);
