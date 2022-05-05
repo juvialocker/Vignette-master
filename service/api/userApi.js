@@ -2,7 +2,7 @@
  * @Author: juvia
  * @Date: 2022-04-25 15:22:47
  * @LastEditors: juvia
- * @LastEditTime: 2022-05-05 17:59:26
+ * @LastEditTime: 2022-05-05 18:03:06
  * @FilePath: \Vignette-master\service\api\userApi.js
  * @Description:
  *
@@ -231,7 +231,7 @@ router.post("/get_post", (req, res) => {
 });
 // 查询帖子详情接口
 router.post("/get_post_detail", (req, res) => {
-  let { id,article_userid } = req.body;
+  let { id } = req.body;
   let sql = "SELECT * FROM juvia_post WHERE id = ?";
   conn.query(sql, [id], function(err, result) {
     if (err) {
@@ -256,9 +256,9 @@ router.post("/get_post_detail", (req, res) => {
 
 // 删除帖子接口
 router.post("/delete_post", (req, res) => {
-  let review_authorID = req.body;
-  let sql = "SELECT * FROM juvia_post WHERE review_authorID = ?";
-  conn.query(sql, [review_authorID], function(err, result) {
+  let {id,article_userid} = req.body;
+  let sql = "DELETE * FROM juvia_post WHERE (id,article_userid) = (?,?)?";
+  conn.query(sql, [id,article_userid], function(err, result) {
     if (err) {
       //返回接口内容
       let datas = {
@@ -346,7 +346,7 @@ router.post("/get_post_review", (req, res) => {
 // 删除评论接口
 router.post("/delete_post_review", (req, res) => {
   let review_authorID = req.body;
-  let sql = "SELECT * FROM juvia_post_review WHERE review_authorID = ?";
+  let sql = "DELETE * FROM juvia_post_review WHERE review_authorID = ?";
   conn.query(sql, [review_authorID], function(err, result) {
     if (err) {
       //返回接口内容
