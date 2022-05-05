@@ -20,23 +20,23 @@
           </MenuItem>
         </div>
         <div class="avatar">
-        <div v-if="username!==''">
-          <Dropdown placement="bottom-end">
-            <Avatar icon="ios-person" size="small" /> &nbsp;&nbsp;{{username}}
-            <Icon type="ios-arrow-down"></Icon>
-            <DropdownMenu slot="list">
-              <DropdownItem>
-                <div  @click="logOut">
-                  <i class="iconfont icontuichu" ></i>
-                  <span >退出</span>
-                </div>
-              </DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
-        </div>
-        <div v-else class="login">
-          <Button class="ok" type="info" size="large" @click="login">登录</Button>
-        </div>
+          <div v-if="username">
+            <Dropdown placement="bottom-end">
+              <Avatar icon="ios-person" size="small" /> &nbsp;&nbsp;{{username}}
+              <Icon type="ios-arrow-down"></Icon>
+              <DropdownMenu slot="list">
+                <DropdownItem>
+                  <div  @click="logOut">
+                    <i class="iconfont icontuichu" ></i>
+                    <span >退出</span>
+                  </div>
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+          </div>
+          <div v-else class="login">
+            <Button class="ok" type="info" size="large" @click="login">登录</Button>
+          </div>
         </div>
       </Menu>
     </Header>
