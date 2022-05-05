@@ -16,22 +16,22 @@
         class="top_box"
         v-for="(item, index) in post_list"
         :key="index"
-        @click="btn_box(item.article_id.id)"
+        @click="btn_box(item.id)"
       >
         <div class="title">
           <div>
-            {{ item.article_id.article_title }}
+            {{ item.article_title }}
           </div>
           <div style="color:#999">
-            {{ item.article_id.article_time }}
+            {{ item.article_time }}
           </div>
         </div>
         <div class="content">
           <div>
-            {{ item.article_id.article_content }}
+            {{ item.article_content }}
           </div>
           <div style="color:#999">
-            {{ item.article_id.article_user }}
+            {{ item.article_user }}
           </div>
         </div>
       </div>
@@ -72,6 +72,7 @@ import { Vue, Component, Watch, Prop, Emit } from "vue-property-decorator";
 // import modal from "@/components/modal.vue"
 import * as service from "@/service";
 import moment from "moment";
+import { API_URL } from "../../config";
 @Component({
   components: {
     // modal
@@ -92,7 +93,7 @@ export default class module extends Vue {
         let article_id = String(new Date().getTime());
         let article_time = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
 
-        let article = {
+        let data = {
           id: article_id,
           article_time: article_time,
           article_title: this.article_title,
@@ -100,23 +101,28 @@ export default class module extends Vue {
           article_user: window.sessionStorage.getItem("username"),
           article_userid: window.sessionStorage.getItem("username"),
         };
-        let basic: object = {
-          article_id: article,
-        };
-        let arr: any = [];
-        arr = JSON.stringify(arr);
-        let a: any = window.sessionStorage.getItem("post_list") || arr;
-        let post_list: any = JSON.parse(a);
-        post_list.push(basic);
-        let post_list_str: any = String(JSON.stringify(post_list));
-        window.sessionStorage.setItem("post_list", post_list_str);
-        setTimeout(() => {
-          this.loading = false;
-          this.$Message.success("发布成功");
-          this.article_title = "";
-          this.article_content = "";
-          this.get_post_list();
-        }, 2000);
+        let url = `${API_URL}/api/post`;
+        this.axios({
+          method: "post",
+          url: url,
+          data,
+        })
+          .then((res) => {
+            if (res.data.code == 200) {
+              this.$Message.success("发布成功");
+              setTimeout(() => {
+                this.loading = false;
+                this.article_title = "";
+                this.article_content = "";
+                this.get_post_list();
+              }, 2000);
+            } else if (res.data.code == 500) {
+              this.$Message.warning("网络错误");
+            }
+          })
+          .catch((error) => {
+            this.$Message.warning("网络错误");
+          });
       } else if (this.article_title == "") {
         this.$Message.warning("请填写标题");
         this.loading = false;
@@ -127,8 +133,22 @@ export default class module extends Vue {
     }
   }
   public get_post_list() {
-    let a: any = window.sessionStorage.getItem("post_list");
-    this.post_list = JSON.parse(a);
+    let url = `${API_URL}/api/get_post`;
+    this.axios({
+      method: "post",
+      url: url,
+    })
+      .then((res) => {
+        if (res.data.code == 200) {
+          this.post_list = res.data.data;
+          this.$Message.success("查询成功");
+        } else if (res.data.code == 500) {
+          this.$Message.warning("网络错误");
+        }
+      })
+      .catch((error) => {
+        this.$Message.warning("网络错误");
+      });
   }
   public mounted() {
     this.get_post_list();
@@ -181,6 +201,7 @@ export default class module extends Vue {
     width: 1000px;
     margin: 0 auto;
     padding: 20px;
+    border-top: 1px solid #bbb;
     img {
       width: 30px;
       height: 20px;

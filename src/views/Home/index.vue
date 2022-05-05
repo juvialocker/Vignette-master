@@ -1,13 +1,3 @@
-<!--
- * @Author: juvia
- * @Date: 2022-04-07 11:03:50
- * @LastEditors: juvia
- * @LastEditTime: 2022-04-26 15:27:16
- * @FilePath: \Vignette-master\src\views\Home\index.vue
- * @Description: 
- * 
- * Copyright (c) 2022 by juvia, All Rights Reserved. 
--->
 <template>
   <div class="index_container">
     <div class="title">{{ content }}</div>
@@ -33,6 +23,7 @@
 import { Vue, Component, Watch, Prop, Emit } from "vue-property-decorator";
 // import modal from "@/components/modal.vue"
 import * as service from "@/service";
+import { API_URL } from "../../config";
 @Component({
   components: {
     // modal
@@ -44,11 +35,26 @@ export default class module extends Vue {
   public theme: string = "light";
   public type_list: Array<any> = [];
   public mounted() {
-    let url =
-      "https://mock.mengxuegu.com/mock/6170092a4351af34a2ddf6a1/get_word_type";
-    (this as any).$axios.post(url).then((res) => {
-      this.type_list = res.data.data;
-    });
+    let url = `${API_URL}/api/get_word_type`;
+    this.axios({
+      method: "post",
+      url: url,
+    })
+      .then((res) => {
+        if (res.data.code == 200) {
+          this.type_list = res.data.data;
+        } else if (res.data.code == 500) {
+          this.$Message.warning("网络错误");
+        }
+      })
+      .catch((error) => {
+        this.$Message.warning("网络错误");
+      });
+    // let url =
+    //   "https://mock.mengxuegu.com/mock/6170092a4351af34a2ddf6a1/get_word_type";
+    // (this as any).$axios.post(url).then((res) => {
+    //   this.type_list = res.data.data;
+    // });
   }
   public content: string =
     "如果您未注册，请花一分钟时间免费注册本网站用户。如感觉好可推荐给身边的朋友。";

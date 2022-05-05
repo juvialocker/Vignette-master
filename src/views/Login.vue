@@ -71,8 +71,8 @@ export default {
   data() {
     return {
       formInline: {
-        user: "1",
-        password: "1",
+        user: "juvia123",
+        password: "123456",
       },
       ruleInline: {
         user: [{ required: true, message: "请输入帐号", trigger: "blur" }],
@@ -96,102 +96,56 @@ export default {
   created() {
     this.winH = window.innerHeight + "px";
     window.sessionStorage.clear();
-    
   },
   mounted() {
     // this.$refs["background"].style.height = this.winH;
   },
   methods: {
     getLoginCode() {
-      //   let params = {};
-      //   params.phone = this.formInline.user;
-      //   if (/^1[3456789]\d{9}$/.test(this.formInline.user)) {
-      //     service.sendMessage(params).then(({ data }) => {
-      //       if (data.status == 200) {
-      //         console.log(data);
-      //       } else {
-      //         this.$Message.warning(data.error);
-      //       }
-      //     });
-      //     this.getCode = false;
-      //     let timer = setInterval(() => {
-      //       this.time--;
-      //       if (this.time == 0) {
-      //         this.time = 60;
-      //         this.getCode = true;
-      //         this.getCodeText = "重新获取验证码";
-      //         window.clearInterval(timer);
-      //       }
-      //     }, 1000);
-      //   } else {
-      //     this.$Message.error("手机号错误");
-      //   }
     },
 
     // 判断浏览器种类
     detectBrowser() {
-      // var Sys = {};
-      // var ua = navigator.userAgent.toLowerCase();
-      // var s;
-      // (s = ua.match(/firefox\/([\d.]+)/))
-      //   ? (Sys.firefox = s[1])
-      //   : (s = ua.match(/chrome\/([\d.]+)/))
-      //   ? (Sys.chrome = s[1])
-      //   : (s = ua.match(/opera.([\d.]+)/))
-      //   ? (Sys.opera = s[1])
-      //   : (s = ua.match(/rv:([\d.]+)/))
-      //   ? (Sys.ie = s[1])
-      //   : (s = ua.match(/msie ([\d.]+)/))
-      //   ? (Sys.ie = s[1])
-      //   : (s = ua.match(/version\/([\d.]+).*safari/))
-      //   ? (Sys.safari = s[1])
-      //   : 0;
-      // if (Sys.chrome === undefined) {
-      //   this.$Message.error("该网站在谷歌浏览器上体验效果最佳");
-      // }
     },
     // 注册
     register() {
       console.log(this.single);
       this.$refs.formInline.validate((valid) => {
         if (valid) {
-          let params = {};
-          params.user = this.formInline.user;
-          params.password = this.formInline.password;
           if (this.single) {
-            this.$Message.success("注册成功，将在5秒后跳转至网站背单词页面");
-            setTimeout(() => {
-              this.$router.push({
-                name: "home",
+            let url = `${API_URL}/api/addUser`;
+            this.axios({
+              method: "post",
+              url: url,
+              data: {
+                username: this.formInline.user,
+                password: this.formInline.password,
+              },
+            })
+              .then((res) => {
+                console.log(res.data);
+                if (res.data.code == 200) {
+                  this.$Message.success("注册成功");
+                  window.sessionStorage.setItem(
+                    "username",
+                    this.formInline.user
+                  );
+                  this.$router.push({
+                    name: "home",
+                  });
+                } else if (res.data.code == 201) {
+                  this.$Message.warning("账号已存在");
+                
+                } else if (res.data.code == 500) {
+                  this.$Message.warning("注册失败");
+                }
+              })
+              .catch((error) => {
+                this.$Message.warning("提交失败,请刷新页面并重新提交");
               });
-            }, 5000);
-            window.sessionStorage.setItem("username", this.formInline.user);
           } else {
             this.$Message.warning("请勾选网站使用协议");
           }
-          // service
-          //   .login(params)
-          //   .then(res => {
-          //     let status = res.status;
-          //     let type = res.message.Jurisdiction.type;
-          //     if (status == 200 && type === "admin") {
-          //       // this.$Message.success("登录成功");
-          //       window.sessionStorage.setItem("username", res.message.userName);
-          //       setTimeout(() => {
-          //         this.$Message.warning("还没有页面可以调整哟");
-          //         // this.$router.push({
-          //         //   name: "home"
-          //         // }),
-          //       }, 2000);
-          //     } else if (status == 200 && type !== "admin") {
-          //       this.$Message.error("您非当前系统管理员，请重新登录");
-          //     } else {
-          //       this.$Message.error("用户名或验证码错误");
-          //     }
-          //   })
-          //   .catch(error => {
-          //     this.$Message.error("用户名或验证码错误");
-          //   });
         } else {
           return false;
         }
@@ -203,34 +157,27 @@ export default {
       this.$refs.formInline.validate((valid) => {
         if (valid) {
           if (this.single) {
-            console.log("发送请求",`${API_URL}/api/login`);
+            let url = `${API_URL}/api/login`;
             this.axios({
-              method: "get",
-              url: `${API_URL}/api/login`,
+              method: "post",
+              url: url,
               data: {
-                name: this.formItem.name,
+                username: this.formInline.user,
+                password: this.formInline.password,
               },
             })
-              .then((response) => {
-                if (response.status == 200 && response.data != "失败") {
+              .then((res) => {
+                if (res.data.code == 200) {
+                  this.$Message.success("登录成功");
                   this.$router.push({
-                    name: "success",
-                    params: response.data,
+                    name: "home",
                   });
-                } else {
-                  this.$Message.warning({
-                    content: "提交失败,请刷新页面并重新提交",
-                    duration: 10,
-                    closable: true,
-                  });
+                } else if (res.data.code == 500) {
+                  this.$Message.warning("账号或密码错误");
                 }
               })
               .catch((error) => {
-                this.$Message.warning({
-                  content: "提交失败,请刷新页面并重新提交",
-                  duration: 10,
-                  closable: true,
-                });
+                this.$Message.warning("提交失败,请刷新页面并重新提交");
               });
             window.sessionStorage.setItem("username", this.formInline.user);
           } else {
