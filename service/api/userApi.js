@@ -2,7 +2,7 @@
  * @Author: juvia
  * @Date: 2022-04-25 15:22:47
  * @LastEditors: juvia
- * @LastEditTime: 2022-04-26 16:00:44
+ * @LastEditTime: 2022-05-05 17:59:26
  * @FilePath: \Vignette-master\service\api\userApi.js
  * @Description:
  *
@@ -231,7 +231,7 @@ router.post("/get_post", (req, res) => {
 });
 // 查询帖子详情接口
 router.post("/get_post_detail", (req, res) => {
-  let { id } = req.body;
+  let { id,article_userid } = req.body;
   let sql = "SELECT * FROM juvia_post WHERE id = ?";
   conn.query(sql, [id], function(err, result) {
     if (err) {
@@ -247,6 +247,31 @@ router.post("/get_post_detail", (req, res) => {
       let data = {
         code: 200,
         data: result[0],
+      };
+      res.end(JSON.stringify(data));
+      return;
+    }
+  });
+});
+
+// 删除帖子接口
+router.post("/delete_post", (req, res) => {
+  let review_authorID = req.body;
+  let sql = "SELECT * FROM juvia_post WHERE review_authorID = ?";
+  conn.query(sql, [review_authorID], function(err, result) {
+    if (err) {
+      //返回接口内容
+      let datas = {
+        code: 500,
+        msg: err.sqlMessage || "后台服务异常,请稍后再试",
+      };
+      res.end(JSON.stringify(datas));
+      return;
+    } else {
+      //返回接口内容
+      let data = {
+        code: 200,
+        data: result,
       };
       res.end(JSON.stringify(data));
       return;
@@ -298,7 +323,31 @@ router.post("/post_review", (req, res) => {
 router.post("/get_post_review", (req, res) => {
   let { review_articleID } = req.body;
   let sql = "SELECT * FROM juvia_post_review WHERE review_articleID = ?";
-  conn.query(sql,[review_articleID], function(err, result) {
+  conn.query(sql, [review_articleID], function(err, result) {
+    if (err) {
+      //返回接口内容
+      let datas = {
+        code: 500,
+        msg: err.sqlMessage || "后台服务异常,请稍后再试",
+      };
+      res.end(JSON.stringify(datas));
+      return;
+    } else {
+      //返回接口内容
+      let data = {
+        code: 200,
+        data: result,
+      };
+      res.end(JSON.stringify(data));
+      return;
+    }
+  });
+});
+// 删除评论接口
+router.post("/delete_post_review", (req, res) => {
+  let review_authorID = req.body;
+  let sql = "SELECT * FROM juvia_post_review WHERE review_authorID = ?";
+  conn.query(sql, [review_authorID], function(err, result) {
     if (err) {
       //返回接口内容
       let datas = {
