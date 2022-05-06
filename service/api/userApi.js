@@ -256,9 +256,11 @@ router.post("/get_post_detail", (req, res) => {
 
 // 删除帖子接口
 router.post("/delete_post", (req, res) => {
-  let {id,article_userid} = req.body;
-  let sql = "DELETE * FROM juvia_post WHERE (id,article_userid) = (?,?)?";
-  conn.query(sql, [id,article_userid], function(err, result) {
+  let { id, article_userid } = req.body;
+  console.log(id);
+  console.log(article_userid);
+  let sql = "DELETE FROM juvia_post WHERE id = ? and article_userid = ?";
+  conn.query(sql, [id, article_userid], function(err, result) {
     if (err) {
       //返回接口内容
       let datas = {
@@ -271,7 +273,7 @@ router.post("/delete_post", (req, res) => {
       //返回接口内容
       let data = {
         code: 200,
-        data: result,
+        data: "success",
       };
       res.end(JSON.stringify(data));
       return;
@@ -345,9 +347,10 @@ router.post("/get_post_review", (req, res) => {
 });
 // 删除评论接口
 router.post("/delete_post_review", (req, res) => {
-  let review_authorID = req.body;
-  let sql = "DELETE * FROM juvia_post_review WHERE review_authorID = ?";
-  conn.query(sql, [review_authorID], function(err, result) {
+  let { id, review_authorID } = req.body;
+  let sql =
+    "DELETE FROM juvia_post_review WHERE id = ? and review_authorID = ?";
+  conn.query(sql, [id, review_authorID], function(err, result) {
     if (err) {
       //返回接口内容
       let datas = {
@@ -360,7 +363,7 @@ router.post("/delete_post_review", (req, res) => {
       //返回接口内容
       let data = {
         code: 200,
-        data: result,
+        data: "success",
       };
       res.end(JSON.stringify(data));
       return;

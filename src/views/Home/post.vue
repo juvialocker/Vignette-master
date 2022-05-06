@@ -201,7 +201,7 @@ export default class module extends Vue {
     width: 1000px;
     margin: 0 auto;
     padding: 20px;
-    border-top: 1px solid #bbb;
+    border: 1px solid #bbb;
     img {
       width: 30px;
       height: 20px;

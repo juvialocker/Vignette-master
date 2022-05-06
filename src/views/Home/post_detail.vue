@@ -18,6 +18,13 @@
             <div class="content">
               {{ post_list.article_content }}
             </div>
+            <div
+              class="delete_user"
+              v-if="post_list.article_user == username"
+              @click="delete_post(post_list.id)"
+            >
+              删除 |
+            </div>
             <div class="info">1楼&nbsp;&nbsp;{{ post_list.article_time }}</div>
           </div>
         </div>
@@ -38,8 +45,17 @@
             <div class="content">
               {{ item.review_content }}
             </div>
-            <div class="info">
-              {{ index + 2 }}楼&nbsp;&nbsp;{{ item.review_sdTime }}
+            <div class="delete_box">
+              <div
+                class="deletes"
+                v-if="item.review_authorID == username"
+                @click="delete_review(item)"
+              >
+                删除 |
+              </div>
+              <div class="info">
+                {{ index + 2 }}楼&nbsp;&nbsp;{{ item.review_sdTime }}
+              </div>
             </div>
           </div>
         </div>
@@ -87,6 +103,7 @@ export default class module extends Vue {
   public review_all_list: Array<any> = [];
   public post_detail: any = {};
   public article_id: any = 0;
+  private username: any = window.sessionStorage.getItem("username");
   public mounted() {
     this.article_id = this.$route.query.id;
     this.get_post_list();
@@ -105,7 +122,6 @@ export default class module extends Vue {
       .then((res) => {
         if (res.data.code == 200) {
           this.post_list = res.data.data;
-          console.log(this.post_list);
         } else if (res.data.code == 500) {
           this.$Message.warning("网络错误");
         }
@@ -153,22 +169,6 @@ export default class module extends Vue {
           this.review_content = "";
           this.get_review_all_list();
         }, 1000);
-        // let basic: object = {
-        //   id: review,
-        // };
-        // let arr: any = [];
-        // arr = JSON.stringify(arr);
-        // let a: any = window.sessionStorage.getItem("review_list") || arr;
-        // let review_list: any = JSON.parse(a);
-        // review_list.push(basic);
-        // let review_list_str: any = String(JSON.stringify(review_list));
-        // window.sessionStorage.setItem("review_list", review_list_str);
-        // setTimeout(() => {
-        //   this.loading = false;
-        //   this.$Message.success("回复成功");
-        //   this.review_content = "";
-        //   this.get_review_all_list();
-        // }, 2000);
       } else if (this.review_content == "") {
         this.$Message.warning("请填写内容");
         this.loading = false;
@@ -177,12 +177,6 @@ export default class module extends Vue {
   }
   public get_review_all_list() {
     this.review_all_list = [];
-    // let a: any = window.sessionStorage.getItem("review_list");
-    // let arr = JSON.parse(a);
-    // arr.map((item: any) => {
-    //   item.id.article_ID = this.article_id;
-    //   this.review_all_list.push(item.id);
-    // });
     let url = `${API_URL}/api/get_post_review`;
     this.axios({
       method: "post",
@@ -194,7 +188,55 @@ export default class module extends Vue {
       .then((res) => {
         if (res.data.code == 200) {
           this.review_all_list = res.data.data;
-          console.log(this.review_all_list);
+        } else if (res.data.code == 500) {
+          this.$Message.warning("网络错误");
+        }
+      })
+      .catch((error) => {
+        this.$Message.warning("网络错误");
+      });
+  }
+  // 非作者删除评论
+  public delete_review(item: any) {
+    let url = `${API_URL}/api/delete_post_review`;
+    this.axios({
+      method: "post",
+      url: url,
+      data: {
+        id: item.id,
+        review_authorID: this.username,
+      },
+    })
+      .then((res) => {
+        if (res.data.code == 200) {
+          this.$Message.success("删除完成");
+          this.get_post_list();
+          this.get_review_all_list();
+        } else if (res.data.code == 500) {
+          this.$Message.warning("网络错误");
+        }
+      })
+      .catch((error) => {
+        this.$Message.warning("网络错误");
+      });
+  }
+  // 作者删除帖子
+  public delete_post(id: any) {
+    let url = `${API_URL}/api/delete_post`;
+    this.axios({
+      method: "post",
+      url: url,
+      data: {
+        id: id,
+        article_userid: this.username,
+      },
+    })
+      .then((res) => {
+        if (res.data.code == 200) {
+          this.$Message.success("删除完成");
+          this.$router.push({
+            path: `/post`,
+          });
         } else if (res.data.code == 500) {
           this.$Message.warning("网络错误");
         }
@@ -220,7 +262,13 @@ export default class module extends Vue {
       font-size: 20px;
       text-align: left;
     }
-
+    .delete_user {
+      color: rgb(101, 101, 214);
+      position: absolute;
+      bottom: 20px;
+      right: 165px;
+      cursor: pointer;
+    }
     .floor {
       display: flex;
       justify-content: space-between;
@@ -262,6 +310,18 @@ export default class module extends Vue {
         }
         width: 870px;
         padding: 20px;
+        .delete_box {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          .deletes {
+            color: rgb(101, 101, 214);
+            position: absolute;
+            bottom: 20px;
+            right: 165px;
+            cursor: pointer;
+          }
+        }
       }
     }
   }
@@ -270,6 +330,7 @@ export default class module extends Vue {
     width: 1000px;
     margin: 0 auto;
     padding: 20px;
+    border: 1px solid #bbb;
     img {
       width: 30px;
       height: 20px;
