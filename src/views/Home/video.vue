@@ -63,25 +63,34 @@ export default class module extends Vue {
   // @Prop() public readonly title!: string;
   public video_list: Array<any> = [];
   public video_type: Array<any> = [];
+  public type: any = "science";
   public active: string = "";
   public get_video_list(v: string) {
-    this.video_list = [];
-    let url = `https://mock.mengxuegu.com/mock/6170092a4351af34a2ddf6a1/video_${v}`;
-    (this as any).$axios.post(url).then((res: any) => {
-      this.video_list = res.data.data;
+    this.$router.push({
+      path: `/video?type=${v}`,
     });
+    this.type = v;
+    this.get_list();
   }
   public get_video_type() {
     let url = `https://mock.mengxuegu.com/mock/6170092a4351af34a2ddf6a1/video_type`;
     (this as any).$axios.post(url).then((res: any) => {
       this.video_type = res.data.data;
-      let v = this.video_type[0].type;
-      this.active = v;
-
-      this.get_video_list(v);
+      this.active = this.type;
+    });
+  }
+  public get_list() {
+    this.video_list = [];
+    let url = `https://mock.mengxuegu.com/mock/6170092a4351af34a2ddf6a1/video_${
+      this.type
+    }`;
+    (this as any).$axios.post(url).then((res: any) => {
+      this.video_list = res.data.data;
     });
   }
   public mounted() {
+    this.type = this.$route.query.type || this.type;
+    this.get_list();
     this.get_video_type();
   }
   public btn(v: string) {
@@ -139,12 +148,12 @@ export default class module extends Vue {
       }
     }
   }
-    .prompt {
-      height: calc(100vh - 250px);
-      line-height: calc(100vh - 250px);
-      font-size: 32px;
-      font-weight: bold;
-    }
+  .prompt {
+    height: calc(100vh - 250px);
+    line-height: calc(100vh - 250px);
+    font-size: 32px;
+    font-weight: bold;
+  }
   .select_charActive {
     color: red;
   }
