@@ -42,5 +42,5 @@ function connect() {
     });
   }, 1800000);
 }
-connect();
+// connect();
 module.exports = db;
