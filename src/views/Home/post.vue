@@ -166,6 +166,7 @@ export default class module extends Vue {
   height: calc(100vh - 135px);
   padding: 20px;
   overflow-y: auto;
+  font-size: 16px;
   .top {
     width: 1000px;
     margin: 0 auto;
